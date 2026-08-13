@@ -3,14 +3,16 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Email from '../components/Email.js';
 import Senha from '../components/Senha.js';
+import { useNavigation } from '@react-navigation/native';
 
 const google = require('../assets/Google.png')
 const facebook = require('../assets/Facebook.png')
 
 export default function CadastraSe() {
+  const navigation = useNavigation()
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.buttonSetinha}>
+      <TouchableOpacity style={styles.buttonSetinha} onPress={() => navigation.goBack()}>
         <Ionicons name="chevron-back-outline" size={24} color="black" />
       </TouchableOpacity>
 

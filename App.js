@@ -1,6 +1,22 @@
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CadastraSe from './screens/Cadastra-se';
+import Acesse from './screens/Acesse';
+import { View } from 'react-native-web';
+
+const Navigation = createNativeStackNavigator()
 
 export default function App() {
-  return <CadastraSe />;
+  return (
+    
+    <View style={{ flex: 1}}>
+      <NavigationContainer>
+      <Navigation.Navigator screenOptions={{headerShown: false}}>
+        <Navigation.Screen name='Acesse' component={Acesse}></Navigation.Screen>
+        <Navigation.Screen name='Cadastro' component={CadastraSe}></Navigation.Screen>
+      </Navigation.Navigator>
+    </NavigationContainer>
+    </View>
+  );
 }
