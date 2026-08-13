@@ -4,12 +4,23 @@ import { Ionicons } from '@expo/vector-icons';
 import Email from '../components/Email.js';
 import Senha from '../components/Senha.js';
 import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
+import { usuariosCadastrados } from '../Usuarios.js';
 
 const google = require('../assets/Google.png')
 const facebook = require('../assets/Facebook.png')
 
 export default function CadastraSe() {
   const navigation = useNavigation()
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState(''); 
+
+
+  function salvarCadastro() {
+    usuariosCadastrados.push({email, senha})
+    alert('Cadastro Realizado')
+    navigation.navigate('Acesse')
+  }
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.buttonSetinha} onPress={() => navigation.goBack()}>
@@ -19,14 +30,14 @@ export default function CadastraSe() {
       <Text style={styles.titulo}>Cadastra-se</Text>
       <Text style={styles.subtitulo}>Informe seu E-mail e crie uma senha</Text>
 
-      <Email></Email>
-      <Senha label='Crie uma Senha' placeholder='Digite a sua senha'></Senha>
+      <Email value={email} onChangeText={setEmail}></Email>
+      <Senha label='Crie uma Senha' placeholder='Digite a sua senha'value={senha} onChangeText={setSenha}></Senha>
       <Senha label='Repita a senha' placeholder='Digite a sua senha'></Senha>
 
       
 
       <View style={styles.botoes}>
-        <TouchableOpacity style={styles.botao1}>
+        <TouchableOpacity style={styles.botao1} onPress={salvarCadastro}>
           <Text style={styles.textBotao1}>Cadastrar</Text>
         </TouchableOpacity>
       </View>

@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TextInput} from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 
 
-export default function Senha({ label, placeholder}){
+export default function Senha({ label, placeholder, value, onChangeText}){
     return (   
         <View>
             <Text style={styles.texto}>{label}</Text>
@@ -13,6 +13,8 @@ export default function Senha({ label, placeholder}){
                     placeholder={placeholder} 
                     placeholderTextColor='#918f8f'
                     secureTextEntry 
+                    value={value}
+                    onChangeText={onChangeText}
                 />
                 <Ionicons name="eye-outline" size={20} color='#000'></Ionicons>
             </View>

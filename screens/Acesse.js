@@ -1,16 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Email from '../components/Email.js';
 import Senha from '../components/Senha.js';
+import { useState } from 'react';
+import { usuariosCadastrados } from '../Usuarios.js';
 import { useNavigation } from '@react-navigation/native';
-
 const google = require('../assets/Google.png')
 const facebook = require('../assets/Facebook.png')
 
 
 export default function Acesse() {
   const navigation = useNavigation()
+  const [email, setEmail] = useState('')
+  const [senha, setSenha] = useState('')
+
+  function Entrar() {
+    const userValido = usuariosCadastrados.find((i) => i.email === email && i.senha === senha)
+
+    if(userValido){
+      Alert.alert('Login realizado!')
+    } else {
+      Alert.alert('E-mail ou senha estão incorretos!')
+    }
+  }
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.buttonSetinha} onPress={() => navigation.goBack()}>
@@ -20,8 +33,8 @@ export default function Acesse() {
       <Text style={styles.titulo}>Acesse</Text>
       <Text style={styles.subtitulo}>com E-mail e Senha</Text>
 
-      <Email></Email>
-      <Senha label='Senha' placeholder='Digite a sua senha'></Senha>
+      <Email value={email} onChangeText={setEmail}></Email>
+      <Senha label='Senha' placeholder='Digite a sua senha' value={senha} onChangeText={setSenha}></Senha>
 
       <View style={styles.deixarLinha}>
         <View style={styles.linhaEsqueciSenha}>
@@ -32,7 +45,7 @@ export default function Acesse() {
       </View>
 
       <View style={styles.botoes}>
-        <TouchableOpacity style={styles.botao1}>
+        <TouchableOpacity style={styles.botao1} onPress={Entrar}>
           <Text style={styles.textBotao1}>Acessar</Text>
         </TouchableOpacity>
 
