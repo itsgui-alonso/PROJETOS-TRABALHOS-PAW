@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Modal} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Email from '../components/Email.js';
 import Senha from '../components/Senha.js';
@@ -14,15 +14,16 @@ export default function Acesse() {
   const navigation = useNavigation()
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
+  const [modalSucesso, setModalSucesso] = useState(false)
+  const [modalErro, setModalErro] = useState(false)
 
   function Entrar() { // Essa função so aparece o alert no navegador
-    console.log('botão Entrar clicado', email, senha)
     const userValido = usuariosCadastrados.find((i) => i.email === email && i.senha === senha)
 
     if(userValido){
-      alert('Login realizado!')
+      setModalSucesso(true)
     } else {
-      alert('E-mail ou senha estão incorretos!')
+      setModalErro(true)
     }
   }
   return (
@@ -70,6 +71,36 @@ export default function Acesse() {
           <Image source={facebook} style={styles.logo}></Image>
         </TouchableOpacity>
       </View>
+
+      <Modal visible={modalSucesso} transparent animationType='fade'>
+          <View style={styles.fundoModal}>
+              <View style={styles.caixinhaModal}>
+                  <Text style={styles.tituloModal}>Login realizado com Sucesso!</Text>
+                  <Text style={styles.textoModal}>Bem vindo de volta</Text>
+      
+                  <TouchableOpacity 
+                    style={styles.botaoModal}
+                    onPress={() => { setModalSucesso(false)
+                  }}
+                  ><Text style={styles.textoBotaoModal}>OK</Text></TouchableOpacity>
+              </View>
+          </View>
+        </Modal>
+
+        <Modal visible={modalErro} transparent animationType='fade'>
+          <View style={styles.fundoModal}>
+              <View style={styles.caixinhaModal}>
+                  <Text style={styles.tituloModal}>Não foi possivel entrar!</Text>
+                  <Text style={styles.textoModal}>E-mail ou Senha estão incorretos!</Text>
+      
+                  <TouchableOpacity 
+                    style={styles.botaoModal}
+                    onPress={() => { setModalErro(false)
+                  }}
+                  ><Text style={styles.textoBotaoModal}>OK</Text></TouchableOpacity>
+              </View>
+          </View>
+        </Modal>
       <StatusBar style="auto" />
     </View>
   );
@@ -167,5 +198,38 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20
+  },
+  fundoModal: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  caixinhaModal: {
+    backgroundColor: '#fff',
+    padding: 24,
+    borderRadius: 12,
+    width: '70%',
+    alignItems: 'center'
+  }, 
+  tituloModal: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    textAlign: 'center'
+  },
+  textoModal: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 16,
+  }, 
+  botaoModal: {
+    color: '#3cb371',
+    borderRadius: 10,
+    paddingVertical: 14,
+    paddingHorizontal: 10
+  },
+  textoBotaoModal: {
+    fontWeight: '600'
   }
 });

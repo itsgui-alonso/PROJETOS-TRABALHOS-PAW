@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Email from '../components/Email.js';
 import Senha from '../components/Senha.js';
@@ -13,13 +13,19 @@ const facebook = require('../assets/Facebook.png')
 export default function CadastraSe() {
   const navigation = useNavigation()
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState(''); 
+  const [senha, setSenha] = useState('');
+  const [confirmaSenha, setConfirmaSenha] = useState('') 
+  const [cadastroFeito, setCadastroFeito] = useState(false)
+  const [senhaDiferente, setSenhaDiferente] = useState(false)
 
 
   function salvarCadastro() { // Essa função so aparece o alert no navegador
+    if(senha !== confirmaSenha){
+      setSenhaDiferente(true)
+      return
+    }
     usuariosCadastrados.push({email, senha})
-    alert('Cadastro Realizado')
-    navigation.navigate('Acesse')
+    setCadastroFeito(true)
   }
   return (
     <View style={styles.container}>
@@ -32,7 +38,7 @@ export default function CadastraSe() {
 
       <Email value={email} onChangeText={setEmail}></Email>
       <Senha label='Crie uma Senha' placeholder='Digite a sua senha' value={senha} onChangeText={setSenha}></Senha>
-      <Senha label='Repita a senha' placeholder='Digite a sua senha'></Senha>
+      <Senha label='Repita a senha' placeholder='Digite a sua senha' value={confirmaSenha} onChangeText={setConfirmaSenha}></Senha>
 
       
 
@@ -57,8 +63,39 @@ export default function CadastraSe() {
           <Image source={facebook} style={styles.logo}></Image>
         </TouchableOpacity>
       </View>
+
+      <Modal visible={cadastroFeito} transparent animationType='fade'>
+        <View style={styles.fundoModal}>
+          <View style={styles.caixinhaModal}>
+            <Text style={styles.tituloModal}>Cadastro feito com Sucesso!</Text>
+            <Text style={styles.textoModal}>A sua conta foi criada.</Text>
+
+            <TouchableOpacity 
+              style={styles.botaoModal}
+              onPress={() => { setCadastroFeito(false)
+              navigation.navigate('Acesse')
+            }}
+            ><Text style={styles.textoBotaoModal}>OK</Text></TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal visible={senhaDiferente} transparent animationType='fade'>
+        <View style={styles.fundoModal}>
+          <View style={styles.caixinhaModal}>
+            <Text style={styles.tituloModal}>Senha Incorreta!</Text>
+            <Text style={styles.textoModal}>Repita a Sunha com a mesam acima!</Text>
+
+            <TouchableOpacity 
+              style={styles.botaoModal}
+              onPress={() => { setSenhaDiferente(false)
+            }}
+            ><Text style={styles.textoBotaoModal}>OK</Text></TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       <StatusBar style="auto" />
-    </View>
+    </View> 
   );
 }
 
@@ -121,5 +158,38 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20
+  },
+  fundoModal: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  caixinhaModal: {
+    backgroundColor: '#fff',
+    padding: 24,
+    borderRadius: 12,
+    width: '70%',
+    alignItems: 'center'
+  }, 
+  tituloModal: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    textAlign: 'center'
+  },
+  textoModal: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 16,
+  }, 
+  botaoModal: {
+    color: '#3cb371',
+    borderRadius: 10,
+    paddingVertical: 14,
+    paddingHorizontal: 10
+  },
+  textoBotaoModal: {
+    fontWeight: '600'
   }
 });
