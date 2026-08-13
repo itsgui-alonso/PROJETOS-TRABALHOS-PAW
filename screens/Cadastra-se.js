@@ -16,7 +16,7 @@ export default function CadastraSe() {
   const [senha, setSenha] = useState(''); 
 
 
-  function salvarCadastro() {
+  function salvarCadastro() { // Essa função so aparece o alert no navegador
     usuariosCadastrados.push({email, senha})
     alert('Cadastro Realizado')
     navigation.navigate('Acesse')
@@ -31,7 +31,7 @@ export default function CadastraSe() {
       <Text style={styles.subtitulo}>Informe seu E-mail e crie uma senha</Text>
 
       <Email value={email} onChangeText={setEmail}></Email>
-      <Senha label='Crie uma Senha' placeholder='Digite a sua senha'value={senha} onChangeText={setSenha}></Senha>
+      <Senha label='Crie uma Senha' placeholder='Digite a sua senha' value={senha} onChangeText={setSenha}></Senha>
       <Senha label='Repita a senha' placeholder='Digite a sua senha'></Senha>
 
       

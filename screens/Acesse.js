@@ -15,13 +15,14 @@ export default function Acesse() {
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
 
-  function Entrar() {
+  function Entrar() { // Essa função so aparece o alert no navegador
+    console.log('botão Entrar clicado', email, senha)
     const userValido = usuariosCadastrados.find((i) => i.email === email && i.senha === senha)
 
     if(userValido){
-      Alert.alert('Login realizado!')
+      alert('Login realizado!')
     } else {
-      Alert.alert('E-mail ou senha estão incorretos!')
+      alert('E-mail ou senha estão incorretos!')
     }
   }
   return (
